@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { tokenAction } from '../actions';
 import { fetchToken } from '../server';
 
@@ -11,6 +12,7 @@ class Login extends Component {
       email: '',
       name: '',
       isDisabled: true,
+      isRedirect: false,
     };
   }
 
@@ -36,8 +38,12 @@ class Login extends Component {
     history.push('/game');
   }
 
+  redirectClick = () => {
+    this.setState({ isRedirect: true });
+  }
+
   render() {
-    const { email, name, isDisabled } = this.state;
+    const { email, name, isDisabled, isRedirect } = this.state;
     return (
       <>
         <h1>Trivia</h1>
@@ -75,8 +81,16 @@ class Login extends Component {
           >
             Play
           </button>
-
         </form>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ this.redirectClick }
+        >
+          Settings
+
+        </button>
+        { isRedirect && <Redirect to="/settings" /> }
       </>
     );
   }
