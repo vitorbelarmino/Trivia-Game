@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { tokenAction } from '../actions';
+import { fetchToken } from '../server';
 
 class Login extends Component {
   constructor() {
@@ -25,8 +29,11 @@ class Login extends Component {
     this.setState({ [name]: value }, () => this.validade());
   }
 
-  handleClick = () => {
-    //
+  handleClick = async () => {
+    const { savedToken, history } = this.props;
+    const { token } = await fetchToken();
+    savedToken(token);
+    history.push('/game');
   }
 
   render() {
@@ -75,4 +82,15 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  savedToken: (token) => dispatch(tokenAction(token)),
+});
+
+Login.propTypes = {
+  savedToken: PropTypes.func,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Login);
