@@ -1,4 +1,4 @@
-import { SAVE_INFOS } from '../actions';
+import { SAVE_INFOS, SAVE_SCORE } from '../actions';
 
 const INIT_STATE = {
   name: '',
@@ -15,6 +15,11 @@ const player = (state = INIT_STATE, action) => {
     return { ...state,
       name: action.name,
       gravatarEmail: action.email };
+  case SAVE_SCORE:
+    return {
+      ...state,
+      score: action.payload,
+    };
   default: {
     return state;
   }
