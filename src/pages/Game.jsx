@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchAPITrivia } from '../server';
+import Header from '../components/Header';
 
 class Game extends Component {
   constructor() {
@@ -59,25 +60,28 @@ class Game extends Component {
   render() {
     const { questions } = this.state;
     return (
-      <div>
-        {
-          questions.length > 0 && (
-            <div>
-              <p
-                data-testid="question-category"
-              >
-                {questions[0].category}
-              </p>
-              <p
-                data-testid="question-text"
-              >
-                {questions[0].question}
-              </p>
-              { this.questionsOptions() }
-            </div>
-          )
-        }
-      </div>
+      <>
+        <Header />
+        <div>
+          {
+            questions.length > 0 && (
+              <div>
+                <p
+                  data-testid="question-category"
+                >
+                  {questions[0].category}
+                </p>
+                <p
+                  data-testid="question-text"
+                >
+                  {questions[0].question}
+                </p>
+                { this.questionsOptions() }
+              </div>
+            )
+          }
+        </div>
+      </>
     );
   }
 }
