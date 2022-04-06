@@ -10,6 +10,7 @@ class Header extends React.Component {
     return (
       <div>
         <header>
+          <p>Header</p>
           <img
             src={ gravatar }
             alt="imagem player"
