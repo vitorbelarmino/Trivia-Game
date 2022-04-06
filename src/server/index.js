@@ -14,10 +14,10 @@ const fetchToken = async () => {
   return token;
 };
 
-/* export const fetchAPITrivia = async () => {
+export const fetchAPITrivia = async (token) => {
   const request = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   const questions = await request.json();
   return questions;
-}; */
+};
 
 export default fetchToken;
