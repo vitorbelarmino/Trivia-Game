@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchAPITrivia } from '../server';
 import Header from '../components/Header';
+import { saveScore } from '../actions';
 
 class Game extends Component {
   constructor() {
@@ -22,6 +23,21 @@ class Game extends Component {
     this.setState({ questions: results });
   }
 
+  getScore = () => {
+    const { questions } = this.state;
+    const { scoreGame } = this.props;
+    const { difficulty } = questions[0];
+    const levels = [' easy', 'medium', 'hard'];
+    levels.forEach((level, index) => {
+      if (level === difficulty) {
+        const MIN_SCORE = 10;
+        const timer = document.getElementById('timer').innerText;
+        const score = (MIN_SCORE + Number(timer) * (index + 1));
+        scoreGame(score);
+      }
+    });
+  }
+
   addClass = () => {
     const { questions } = this.state;
     const answerCorrect = questions[0].correct_answer;
@@ -29,6 +45,7 @@ class Game extends Component {
     buttons.forEach((btn) => {
       if (btn.innerText === answerCorrect) {
         btn.style.border = '3px solid rgb(6, 240, 15)';
+        this.getScore();
       } else {
         btn.style.border = '3px solid rgb(255, 0, 0)';
       }
@@ -107,8 +124,13 @@ const mapStateToProps = (state) => ({
   token: state.token,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  scoreGame: (score) => dispatch(saveScore(score)),
+});
+
 Game.propTypes = {
   token: PropTypes.string,
+  scoreGame: PropTypes.func,
 }.isRequired;
 
-export default connect(mapStateToProps)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
