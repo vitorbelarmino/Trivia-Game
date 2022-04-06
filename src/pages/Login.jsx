@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-import { tokenAction } from '../actions';
-import { fetchToken } from '../server';
+import { Redirect, withRouter } from 'react-router-dom';
+import { tokenAction, saveInfos } from '../actions';
+import fetchToken from '../server/index';
 
 class Login extends Component {
   constructor() {
@@ -32,9 +32,11 @@ class Login extends Component {
   }
 
   handleClick = async () => {
-    const { savedToken, history } = this.props;
+    const { email, name } = this.state;
+    const { savedToken, history, playerInfos } = this.props;
     const { token } = await fetchToken();
     savedToken(token);
+    playerInfos(email, name);
     history.push('/game');
   }
 
@@ -98,13 +100,15 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   savedToken: (token) => dispatch(tokenAction(token)),
+  playerInfos: (email, name) => dispatch(saveInfos(email, name)),
 });
 
 Login.propTypes = {
   savedToken: PropTypes.func,
+  playerInfos: PropTypes.func,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
 }.isRequired;
 
-export default connect(null, mapDispatchToProps)(Login);
+export default withRouter(connect(null, mapDispatchToProps)(Login));
