@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchAPITrivia } from '../server';
 import Header from '../components/Header';
+import Timer from '../components/Timer';
 
 class Game extends Component {
   constructor() {
@@ -98,6 +99,7 @@ class Game extends Component {
             )
           }
         </div>
+        <Timer />
       </>
     );
   }
