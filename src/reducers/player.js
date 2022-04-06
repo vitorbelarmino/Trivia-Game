@@ -9,7 +9,6 @@ const INIT_STATE = {
 };
 
 const player = (state = INIT_STATE, action) => {
-  console.log(action);
   switch (action.type) {
   case SAVE_INFOS:
     return { ...state,

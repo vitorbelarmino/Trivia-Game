@@ -22,6 +22,19 @@ class Game extends Component {
     this.setState({ questions: results });
   }
 
+  addClass = () => {
+    const { questions } = this.state;
+    const answerCorrect = questions[0].correct_answer;
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach((btn) => {
+      if (btn.innerText === answerCorrect) {
+        btn.style.border = '3px solid rgb(6, 240, 15)';
+      } else {
+        btn.style.border = '3px solid rgb(255, 0, 0)';
+      }
+    });
+  }
+
   questionsOptions = () => {
     const { questions } = this.state;
     const NUMB_HALF = 0.5;
@@ -35,8 +48,10 @@ class Game extends Component {
               return (
                 <button
                   key={ opt }
+                  className="btn"
                   type="button"
                   data-testid="correct-answer"
+                  onClick={ this.addClass }
                 >
                   {opt}
                 </button>
@@ -45,8 +60,10 @@ class Game extends Component {
             return (
               <button
                 key={ opt }
+                className="btn"
                 type="button"
                 data-testid={ `wrong-answer-${index}` }
+                onClick={ this.addClass }
               >
                 {opt}
               </button>
