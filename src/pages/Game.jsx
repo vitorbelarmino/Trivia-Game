@@ -9,6 +9,8 @@ class Game extends Component {
     super();
     this.state = {
       questions: [],
+      indexOf: 0,
+      hidden: true,
     };
   }
 
@@ -23,8 +25,8 @@ class Game extends Component {
   }
 
   addClass = () => {
-    const { questions } = this.state;
-    const answerCorrect = questions[0].correct_answer;
+    const { questions, indexOf } = this.state;
+    const answerCorrect = questions[indexOf].correct_answer;
     const buttons = document.querySelectorAll('.btn');
     buttons.forEach((btn) => {
       if (btn.innerText === answerCorrect) {
@@ -33,18 +35,26 @@ class Game extends Component {
         btn.style.border = '3px solid rgb(255, 0, 0)';
       }
     });
+    this.setState({ hidden: false });
+    // if (hidden) {
+    //   this.setState({ hidden: false });
+    // } else {
+    //   this.setState({ hidden: true });
+    // }
   }
 
   questionsOptions = () => {
-    const { questions } = this.state;
+    const { questions, indexOf } = this.state;
     const NUMB_HALF = 0.5;
-    const options = [questions[0].correct_answer, ...questions[0].incorrect_answers];
+    const options = [questions[indexOf]
+      .correct_answer, ...questions[indexOf]
+      .incorrect_answers];
     options.sort(() => Math.random() - NUMB_HALF); // ref.: https://flaviocopes.com/how-to-shuffle-array-javascript/
     return (
       <div data-testid="answer-options">
         {
           options.map((opt, index) => {
-            if (opt === questions[0].correct_answer) {
+            if (opt === questions[indexOf].correct_answer) {
               return (
                 <button
                   key={ opt }
@@ -75,7 +85,7 @@ class Game extends Component {
   }
 
   render() {
-    const { questions } = this.state;
+    const { questions, indexOf, hidden } = this.state;
     return (
       <>
         <Header />
@@ -86,18 +96,33 @@ class Game extends Component {
                 <p
                   data-testid="question-category"
                 >
-                  {questions[0].category}
+                  {questions[indexOf].category}
                 </p>
                 <p
                   data-testid="question-text"
                 >
-                  {questions[0].question}
+                  {questions[indexOf].question}
                 </p>
                 { this.questionsOptions() }
               </div>
             )
           }
         </div>
+        <button
+          data-testid="btn-next"
+          name="next"
+          id="next"
+          type="button"
+          hidden={ hidden }
+          onClick={ () => {
+            this.setState((prevState) => ({
+              hidden: true,
+              indexOf: prevState.indexOf + 1,
+            }));
+          } }
+        >
+          Next
+        </button>
       </>
     );
   }
