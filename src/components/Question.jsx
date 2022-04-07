@@ -80,18 +80,19 @@ class Question extends Component {
         {questions[indexOf]?.correct_answer}
       </button>
     );
-    const optionsIcorrects = [...questions[indexOf]?.incorrect_answers].map((e, index) => (
-      <button
-        key={ index }
-        className="btn"
-        type="button"
-        data-testid={ `wrong-answer-${index}` }
-        name={ e }
-        onClick={ this.addClass }
-      >
-        {e}
-      </button>
-    ));
+    const optionsIcorrects = [...questions[indexOf]?.incorrect_answers]
+      .map((e, index) => (
+        <button
+          key={ index }
+          className="btn"
+          type="button"
+          data-testid={ `wrong-answer-${index}` }
+          name={ e }
+          onClick={ this.addClass }
+        >
+          {e}
+        </button>
+      ));
     const allOptions = [optionCorrect, ...optionsIcorrects]
       .sort(() => Math.random() - NUMB_HALF); // ref.: https://flaviocopes.com/how-to-shuffle-array-javascript/
     this.setState({ OptionsRandom: [...allOptions] });
