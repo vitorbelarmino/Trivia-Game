@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { fetchAPITrivia } from '../server';
 import { saveScore } from '../actions';
 
@@ -47,6 +48,7 @@ class Question extends Component {
 
   addClass = ({ target }) => {
     const { indexOf, questions } = this.state;
+    const { history } = this.props;
     const answerCorrect = questions[indexOf].correct_answer;
     this.getScore({ target }, answerCorrect);
     const buttons = document.querySelectorAll('.btn');
@@ -58,6 +60,9 @@ class Question extends Component {
       }
     });
     this.setState({ hidden: false });
+    if (indexOf > questions[indexOf].incorrect_answers.length) {
+      history.push('/feedback');
+    }
   }
 
   questionsOptions = () => {
@@ -136,9 +141,12 @@ class Question extends Component {
 }
 
 Question.propTypes = {
-  token: PropTypes.string.isRequired,
-  scoreGame: PropTypes.func.isRequired,
-};
+  token: PropTypes.string,
+  scoreGame: PropTypes.func,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
 
 const mapStateToProps = (state) => ({
   token: state.token,
@@ -148,4 +156,4 @@ const mapDispatchToProps = (dispatch) => ({
   scoreGame: (score) => dispatch(saveScore(score)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Question);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Question));
