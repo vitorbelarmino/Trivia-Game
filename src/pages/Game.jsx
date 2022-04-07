@@ -4,23 +4,49 @@ import PropTypes from 'prop-types';
 import { fetchAPITrivia } from '../server';
 import Header from '../components/Header';
 import { saveScore } from '../actions';
+// import Timer from '../components/Timer';
 
 class Game extends Component {
   constructor() {
     super();
     this.state = {
       questions: [],
+      time: 30,
     };
   }
 
   componentDidMount() {
     this.sendResquestAPI();
+    this.handleTimer();
   }
+
+  handleTimer = () => {
+    const SECOND = 1000;
+    this.Timer = setInterval(() => {
+      this.setState((prevState) => ({ time: prevState.time - 1 }));
+    }, SECOND);
+  };
 
   sendResquestAPI = async () => {
     const { token } = this.props;
     const { results } = await fetchAPITrivia(token);
     this.setState({ questions: results });
+  }
+
+  disableBtn = () => {
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach((btn) => {
+      btn.setAttribute('disabled', 'true');
+    });
+  }
+
+  componentDidUpdate = () => {
+    const { time } = this.state;
+    const COUNT = 0;
+    if (time === COUNT) {
+      clearInterval(this.Timer);
+      this.disableBtn();
+    }
   }
 
   getScore = () => {
@@ -92,7 +118,7 @@ class Game extends Component {
   }
 
   render() {
-    const { questions } = this.state;
+    const { questions, time } = this.state;
     return (
       <>
         <Header />
@@ -114,6 +140,9 @@ class Game extends Component {
               </div>
             )
           }
+        </div>
+        <div id="timer">
+          { time }
         </div>
       </>
     );
