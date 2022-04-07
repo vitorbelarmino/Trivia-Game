@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 class PlayAgain extends React.Component {
   handleClick = () => {
     const { history } = this.props;
-    history.push('/ranking');
+    history.push('/');
   }
 
   render() {
@@ -14,7 +14,7 @@ class PlayAgain extends React.Component {
         <button
           type="button"
           data-testid="btn-play-again"
-          onClick={ this.handleClick() }
+          onClick={ this.handleClick }
         >
           Play Again
         </button>
