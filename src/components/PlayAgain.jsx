@@ -1,16 +1,21 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 class PlayAgain extends React.Component {
+  handleClick = () => {
+    const { history } = this.props;
+    history.push('/ranking');
+  }
+
   render() {
     return (
       <div>
         <button
           type="button"
           data-testid="btn-play-again"
+          onClick={ this.handleClick() }
         >
-          onClick=
-          <Redirect to="/" />
           Play Again
         </button>
       </div>
@@ -18,4 +23,10 @@ class PlayAgain extends React.Component {
   }
 }
 
-export default PlayAgain;
+PlayAgain.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
+
+export default withRouter(PlayAgain);

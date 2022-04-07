@@ -49,7 +49,7 @@ class Question extends Component {
   addClass = ({ target }) => {
     const { indexOf, questions } = this.state;
     const { history } = this.props;
-    const answerCorrect = questions[indexOf].correct_answer;
+    const answerCorrect = questions[indexOf]?.correct_answer;
     this.getScore({ target }, answerCorrect);
     const buttons = document.querySelectorAll('.btn');
     buttons.forEach((btn) => {
@@ -60,7 +60,7 @@ class Question extends Component {
       }
     });
     this.setState({ hidden: false });
-    if (indexOf > questions[indexOf].incorrect_answers.length) {
+    if (indexOf > questions[indexOf]?.incorrect_answers.length + 1) {
       history.push('/feedback');
     }
   }
@@ -74,13 +74,13 @@ class Question extends Component {
         key="4"
         type="button"
         data-testid="correct-answer"
-        name={ questions[indexOf].correct_answer }
+        name={ questions[indexOf]?.correct_answer }
         onClick={ this.addClass }
       >
-        {questions[indexOf].correct_answer}
+        {questions[indexOf]?.correct_answer}
       </button>
     );
-    const optionsIcorrects = [...questions[indexOf].incorrect_answers].map((e, index) => (
+    const optionsIcorrects = [...questions[indexOf]?.incorrect_answers].map((e, index) => (
       <button
         key={ index }
         className="btn"
@@ -107,12 +107,12 @@ class Question extends Component {
             <p
               data-testid="question-category"
             >
-              {questions[indexOf].category}
+              {questions[indexOf]?.category}
             </p>
             <p
               data-testid="question-text"
             >
-              {questions[indexOf].question}
+              {questions[indexOf]?.question}
             </p>
             <div data-testid="answer-options">
               {OptionsRandom.map((ele) => ele)}
