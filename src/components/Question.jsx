@@ -43,8 +43,6 @@ class Question extends Component {
     console.log(questions);
     console.log(indexOf);
     const NUMB_HALF = 0.5;
-    const getCorrect = questions[indexOf].correct_answer;
-    console.log(getCorrect);
     const optionCorrect = (
       <button
         className="btn"
@@ -53,11 +51,10 @@ class Question extends Component {
         data-testid="correct-answer"
         onClick={ this.addClass }
       >
-        {getCorrect}
+        {questions[indexOf].correct_answer}
       </button>
     );
-    const optionsIcorrects = [...questions[indexOf].incorrect_answers];
-    const optionsIcorrectsEle = optionsIcorrects.map((e, index) => (
+    const optionsIcorrects = [...questions[indexOf].incorrect_answers].map((e, index) => (
       <button
         key={ index }
         className="btn"
@@ -68,10 +65,8 @@ class Question extends Component {
         {e}
       </button>
     ));
-    const allOptions = [optionCorrect, ...optionsIcorrectsEle]
-      .sort(() => Math.random() - NUMB_HALF);
-    // ref.: https://flaviocopes.com/how-to-shuffle-array-javascript/
-    // options.sort(() => Math.random() - NUMB_HALF); // ref.: https://flaviocopes.com/how-to-shuffle-array-javascript/
+    const allOptions = [optionCorrect, ...optionsIcorrects]
+      .sort(() => Math.random() - NUMB_HALF); // ref.: https://flaviocopes.com/how-to-shuffle-array-javascript/
     this.setState({ OptionsRandom: [...allOptions] });
   }
 
@@ -92,7 +87,9 @@ class Question extends Component {
             >
               {questions[indexOf].question}
             </p>
-            {OptionsRandom.map((ele) => ele)}
+            <div data-testid="answer-options">
+              {OptionsRandom.map((ele) => ele)}
+            </div>
           </div>
         )}
         <button
@@ -101,7 +98,7 @@ class Question extends Component {
           id="next"
           type="button"
           hidden={ hidden }
-          onClick={ async () => {
+          onClick={ () => {
             this.setState((prevState) => ({
               hidden: true,
               indexOf: prevState.indexOf + 1,
