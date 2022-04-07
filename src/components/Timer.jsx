@@ -18,14 +18,14 @@ class Timer extends React.Component {
 
   componentDidMount = () => {
     this.handleTimer();
-  }
+  };
 
   disableBtn = () => {
     const buttons = document.querySelectorAll('.btn');
     buttons.forEach((btn) => {
       btn.setAttribute('disabled', 'true');
     });
-  }
+  };
 
   componentDidUpdate = () => {
     const { time } = this.state;
@@ -34,17 +34,16 @@ class Timer extends React.Component {
       clearInterval(this.Timer);
       this.disableBtn();
     }
-  }
+  };
 
   render() {
     const { time } = this.state;
     return (
       <div id="timer">
         {' '}
-        { time }
+        {time}
         {' '}
-      </div>
-    );
+      </div>);
   }
 }
 
