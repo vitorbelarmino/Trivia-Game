@@ -60,9 +60,21 @@ class Question extends Component {
       }
     });
     this.setState({ hidden: false });
-    if (indexOf > questions[indexOf]?.incorrect_answers.length + 1) {
-      history.push('/feedback');
+  }
+
+  nextQuest = () => {
+    const { indexOf } = this.state;
+    const { history } = this.props;
+    console.log(indexOf);
+    const number = 4;
+    if (indexOf === number) {
+      return history.push('/feedback');
     }
+    this.setState((prevState) => ({
+      hidden: true,
+      indexOf: prevState.indexOf + 1,
+      OptionsRandom: [],
+    }), () => this.questionsOptions());
   }
 
   questionsOptions = () => {
@@ -74,10 +86,10 @@ class Question extends Component {
         key="4"
         type="button"
         data-testid="correct-answer"
-        name={ questions[indexOf]?.correct_answer }
+        name={ questions[indexOf].correct_answer }
         onClick={ this.addClass }
       >
-        {questions[indexOf]?.correct_answer}
+        {questions[indexOf].correct_answer}
       </button>
     );
     const optionsIcorrects = [...questions[indexOf]?.incorrect_answers]
@@ -126,13 +138,7 @@ class Question extends Component {
           id="next"
           type="button"
           hidden={ hidden }
-          onClick={ () => {
-            this.setState((prevState) => ({
-              hidden: true,
-              indexOf: prevState.indexOf + 1,
-              OptionsRandom: [],
-            }), () => this.questionsOptions());
-          } }
+          onClick={ this.nextQuest }
         >
           Next
         </button>
