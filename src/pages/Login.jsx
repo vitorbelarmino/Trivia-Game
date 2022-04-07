@@ -108,7 +108,7 @@ Login.propTypes = {
   playerInfos: PropTypes.func,
   history: PropTypes.shape({
     push: PropTypes.func,
-  }).isRequired,
+  }),
 }.isRequired;
 
 export default withRouter(connect(null, mapDispatchToProps)(Login));
