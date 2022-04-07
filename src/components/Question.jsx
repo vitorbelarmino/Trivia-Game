@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchAPITrivia } from '../server';
+import { saveScore } from '../actions';
 
 class Question extends Component {
   constructor() {
@@ -24,9 +25,30 @@ class Question extends Component {
     this.setState({ questions: results }, () => this.questionsOptions());
   }
 
-  addClass = () => {
+  getScore = ({ target }, answerCorrect) => {
+    const { scoreGame } = this.props;
+    const { questions, indexOf } = this.state;
+    const { difficulty } = questions[indexOf];
+    const timer = document.getElementById('timer').innerText;
+    const MIN_SCORE = 10;
+    const MEDIUM = 2;
+    const HARD = 3;
+    let level = 1;
+    if (target.name === answerCorrect) {
+      if (difficulty === 'medium') {
+        level = MEDIUM;
+      } else if (difficulty === 'hard') {
+        level = HARD;
+      }
+      const score = (MIN_SCORE + Number(timer) * level);
+      scoreGame(score);
+    }
+  };
+
+  addClass = ({ target }) => {
     const { indexOf, questions } = this.state;
     const answerCorrect = questions[indexOf].correct_answer;
+    this.getScore({ target }, answerCorrect);
     const buttons = document.querySelectorAll('.btn');
     buttons.forEach((btn) => {
       if (btn.innerText === answerCorrect) {
@@ -40,8 +62,6 @@ class Question extends Component {
 
   questionsOptions = () => {
     const { indexOf, questions } = this.state;
-    console.log(questions);
-    console.log(indexOf);
     const NUMB_HALF = 0.5;
     const optionCorrect = (
       <button
@@ -49,6 +69,7 @@ class Question extends Component {
         key="4"
         type="button"
         data-testid="correct-answer"
+        name={ questions[indexOf].correct_answer }
         onClick={ this.addClass }
       >
         {questions[indexOf].correct_answer}
@@ -60,6 +81,7 @@ class Question extends Component {
         className="btn"
         type="button"
         data-testid={ `wrong-answer-${index}` }
+        name={ e }
         onClick={ this.addClass }
       >
         {e}
@@ -115,10 +137,15 @@ class Question extends Component {
 
 Question.propTypes = {
   token: PropTypes.string.isRequired,
+  scoreGame: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   token: state.token,
 });
 
-export default connect(mapStateToProps)(Question);
+const mapDispatchToProps = (dispatch) => ({
+  scoreGame: (score) => dispatch(saveScore(score)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Question);
