@@ -27,6 +27,18 @@ class Question extends Component {
     this.setState({ questions: results }, () => this.questionsOptions());
   }
 
+  sendLocalStorage = () => {
+    const { name, score, image } = this.props;
+    const player = { name, score, image };
+    localStorage.setItem('player', JSON.stringify(player));
+    const preveStorage = JSON.parse(localStorage.getItem('players'));
+    if (preveStorage === null) {
+      localStorage.setItem('players', JSON.stringify([player]));
+    } else {
+      localStorage.setItem('players', JSON.stringify([...preveStorage, player]));
+    }
+  }
+
   handleAssertions = () => {
     const { totalAssertions } = this.props;
     const { assertions } = this.state;
@@ -75,6 +87,7 @@ class Question extends Component {
     const { history } = this.props;
     const number = 4;
     if (indexOf === number) {
+      this.sendLocalStorage();
       return history.push('/feedback');
     }
     this.setState((prevState) => ({
@@ -165,6 +178,9 @@ Question.propTypes = {
 
 const mapStateToProps = (state) => ({
   token: state.token,
+  name: state.player.name,
+  score: state.player.score,
+  image: state.player.image,
 });
 
 const mapDispatchToProps = (dispatch) => ({

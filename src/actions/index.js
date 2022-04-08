@@ -5,11 +5,12 @@ export const SAVE_ASSERTIONS = 'SAVE_ASSERTIONS';
 
 export const tokenAction = (value) => ({ type: ADD_TOKEN, payload: value });
 
-export const saveInfos = (email, name) => (
+export const saveInfos = (email, name, image) => (
   {
     type: SAVE_INFOS,
     email,
     name,
+    image,
   });
 
 export const saveScore = (value) => ({ type: SAVE_SCORE, payload: value });
