@@ -1,10 +1,11 @@
-import { SAVE_ASSERTIONS, SAVE_INFOS, SAVE_SCORE } from '../actions';
+import { SAVE_ASSERTIONS, SAVE_INFOS, SAVE_SCORE, INDEX_OF } from '../actions';
 
 const INIT_STATE = {
   name: '',
   assertions: 1,
   score: 0,
   gravatarEmail: '',
+  indexOf: 0,
 };
 
 const player = (state = INIT_STATE, action) => {
@@ -15,6 +16,7 @@ const player = (state = INIT_STATE, action) => {
       gravatarEmail: action.email,
       image: action.image,
       score: 0,
+      indexOf: 0,
     };
   case SAVE_SCORE:
     return {
@@ -25,6 +27,11 @@ const player = (state = INIT_STATE, action) => {
     return {
       ...state,
       assertions: action.payload,
+    };
+  case INDEX_OF:
+    return {
+      ...state,
+      indexOf: state.indexOf + 1,
     };
   default: {
     return state;
