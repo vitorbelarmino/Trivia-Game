@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { fetchAPITrivia } from '../server';
-import { saveScore } from '../actions';
+import { saveScore, saveAssertions } from '../actions';
 
 class Question extends Component {
   constructor() {
@@ -13,6 +13,7 @@ class Question extends Component {
       indexOf: 0,
       hidden: true,
       OptionsRandom: [],
+      assertions: 1,
     };
   }
 
@@ -24,6 +25,13 @@ class Question extends Component {
     const { token } = this.props;
     const { results } = await fetchAPITrivia(token);
     this.setState({ questions: results }, () => this.questionsOptions());
+  }
+
+  handleAssertions = () => {
+    const { totalAssertions } = this.props;
+    const { assertions } = this.state;
+    this.setState((prevState) => ({ assertions: prevState.assertions + 1 }));
+    totalAssertions(assertions);
   }
 
   getScore = ({ target }, answerCorrect) => {
@@ -43,13 +51,13 @@ class Question extends Component {
       }
       const score = (MIN_SCORE + Number(timer) * level);
       scoreGame(score);
+      this.handleAssertions();
     }
   };
 
   addClass = ({ target }) => {
     const { indexOf, questions } = this.state;
-    const { history } = this.props;
-    const answerCorrect = questions[indexOf]?.correct_answer;
+    const answerCorrect = questions[indexOf].correct_answer;
     this.getScore({ target }, answerCorrect);
     const buttons = document.querySelectorAll('.btn');
     buttons.forEach((btn) => {
@@ -60,9 +68,20 @@ class Question extends Component {
       }
     });
     this.setState({ hidden: false });
-    if (indexOf > questions[indexOf]?.incorrect_answers.length + 1) {
-      history.push('/feedback');
+  }
+
+  nextQuest = () => {
+    const { indexOf } = this.state;
+    const { history } = this.props;
+    const number = 4;
+    if (indexOf === number) {
+      return history.push('/feedback');
     }
+    this.setState((prevState) => ({
+      hidden: true,
+      indexOf: prevState.indexOf + 1,
+      OptionsRandom: [],
+    }), () => this.questionsOptions());
   }
 
   questionsOptions = () => {
@@ -74,13 +93,13 @@ class Question extends Component {
         key="4"
         type="button"
         data-testid="correct-answer"
-        name={ questions[indexOf]?.correct_answer }
+        name={ questions[indexOf].correct_answer }
         onClick={ this.addClass }
       >
-        {questions[indexOf]?.correct_answer}
+        {questions[indexOf].correct_answer}
       </button>
     );
-    const optionsIcorrects = [...questions[indexOf]?.incorrect_answers]
+    const optionsIcorrects = [...questions[indexOf].incorrect_answers]
       .map((e, index) => (
         <button
           key={ index }
@@ -108,12 +127,12 @@ class Question extends Component {
             <p
               data-testid="question-category"
             >
-              {questions[indexOf]?.category}
+              {questions[indexOf].category}
             </p>
             <p
               data-testid="question-text"
             >
-              {questions[indexOf]?.question}
+              {questions[indexOf].question}
             </p>
             <div data-testid="answer-options">
               {OptionsRandom.map((ele) => ele)}
@@ -126,13 +145,7 @@ class Question extends Component {
           id="next"
           type="button"
           hidden={ hidden }
-          onClick={ () => {
-            this.setState((prevState) => ({
-              hidden: true,
-              indexOf: prevState.indexOf + 1,
-              OptionsRandom: [],
-            }), () => this.questionsOptions());
-          } }
+          onClick={ this.nextQuest }
         >
           Next
         </button>
@@ -144,6 +157,7 @@ class Question extends Component {
 Question.propTypes = {
   token: PropTypes.string,
   scoreGame: PropTypes.func,
+  totalAssertions: PropTypes.func,
   history: PropTypes.shape({
     push: PropTypes.func,
   }),
@@ -155,6 +169,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   scoreGame: (score) => dispatch(saveScore(score)),
+  totalAssertions: (assertions) => dispatch(saveAssertions(assertions)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Question));

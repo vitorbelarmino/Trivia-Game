@@ -10,7 +10,7 @@ class Message extends React.Component {
       <div>
         <p data-testid="feedback-text">
           {' '}
-          { assertions >= MIN_ACERTOS ? 'Muito bem' : 'Podia ser melhor...' }
+          { assertions >= MIN_ACERTOS ? 'Well Done!' : 'Could be better...' }
           {' '}
         </p>
       </div>

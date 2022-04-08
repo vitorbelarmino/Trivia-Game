@@ -14,7 +14,7 @@ class BtnHanking extends React.Component {
         <button
           type="button"
           data-testid="btn-ranking"
-          onClick={ this.handleClick() }
+          onClick={ this.handleClick }
         >
           Ver Ranking
         </button>
