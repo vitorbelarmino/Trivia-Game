@@ -12,7 +12,10 @@ const player = (state = INIT_STATE, action) => {
   case SAVE_INFOS:
     return { ...state,
       name: action.name,
-      gravatarEmail: action.email };
+      gravatarEmail: action.email,
+      image: action.image,
+      score: 0,
+    };
   case SAVE_SCORE:
     return {
       ...state,

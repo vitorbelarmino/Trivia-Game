@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
+import md5 from 'crypto-js/md5';
 import { tokenAction, saveInfos } from '../actions';
 import fetchToken from '../server';
 
@@ -35,8 +36,9 @@ class Login extends Component {
     const { email, name } = this.state;
     const { savedToken, history, playerInfos } = this.props;
     const { token } = await fetchToken();
+    const imageGravatar = `https://www.gravatar.com/avatar/${md5(email).toString()}`;
     savedToken(token);
-    playerInfos(email, name);
+    playerInfos(email, name, imageGravatar);
     history.push('/game');
   }
 
@@ -100,7 +102,7 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   savedToken: (token) => dispatch(tokenAction(token)),
-  playerInfos: (email, name) => dispatch(saveInfos(email, name)),
+  playerInfos: (email, name, image) => dispatch(saveInfos(email, name, image)),
 });
 
 Login.propTypes = {
