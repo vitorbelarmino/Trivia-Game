@@ -3,14 +3,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { fetchAPITrivia } from '../server';
-import { saveScore, saveAssertions } from '../actions';
+import { saveScore, saveAssertions, indexOfAction } from '../actions';
 
 class Question extends Component {
   constructor() {
     super();
     this.state = {
       questions: [],
-      indexOf: 0,
       hidden: true,
       OptionsRandom: [],
       assertions: 1,
@@ -25,7 +24,7 @@ class Question extends Component {
     const { token } = this.props;
     const { results } = await fetchAPITrivia(token);
     this.setState({ questions: results }, () => this.questionsOptions());
-  }
+  };
 
   sendLocalStorage = () => {
     const { name, score, image } = this.props;
@@ -37,18 +36,18 @@ class Question extends Component {
     } else {
       localStorage.setItem('players', JSON.stringify([...preveStorage, player]));
     }
-  }
+  };
 
   handleAssertions = () => {
     const { totalAssertions } = this.props;
     const { assertions } = this.state;
     this.setState((prevState) => ({ assertions: prevState.assertions + 1 }));
     totalAssertions(assertions);
-  }
+  };
 
   getScore = ({ target }, answerCorrect) => {
-    const { scoreGame } = this.props;
-    const { questions, indexOf } = this.state;
+    const { scoreGame, indexOf } = this.props;
+    const { questions } = this.state;
     const { difficulty } = questions[indexOf];
     const timer = document.getElementById('timer').innerText;
     const MIN_SCORE = 10;
@@ -68,7 +67,8 @@ class Question extends Component {
   };
 
   addClass = ({ target }) => {
-    const { indexOf, questions } = this.state;
+    const { questions } = this.state;
+    const { indexOf } = this.props;
     const answerCorrect = questions[indexOf].correct_answer;
     this.getScore({ target }, answerCorrect);
     const buttons = document.querySelectorAll('.btn');
@@ -82,25 +82,28 @@ class Question extends Component {
       }
     });
     this.setState({ hidden: false });
-  }
+  };
 
   nextQuest = () => {
-    const { indexOf } = this.state;
-    const { history } = this.props;
+    const { history, indexOf, sendIndexOf } = this.props;
+    console.log(indexOf);
     const number = 4;
     if (indexOf === number) {
       this.sendLocalStorage();
       return history.push('/feedback');
     }
-    this.setState((prevState) => ({
+    if (indexOf <= number) {
+      sendIndexOf();
+    }
+    this.setState({
       hidden: true,
-      indexOf: prevState.indexOf + 1,
       OptionsRandom: [],
-    }), () => this.questionsOptions());
-  }
+    }, () => this.questionsOptions());
+  };
 
   questionsOptions = () => {
-    const { indexOf, questions } = this.state;
+    const { questions } = this.state;
+    const { indexOf } = this.props;
     const NUMB_HALF = 0.5;
     const optionCorrect = (
       <button
@@ -115,25 +118,26 @@ class Question extends Component {
       </button>
     );
     const optionsIcorrects = [...questions[indexOf].incorrect_answers]
-      .map((e, index) => (
+      .map((opt, index) => (
         <button
           key={ index }
           className="btn"
           type="button"
           data-testid={ `wrong-answer-${index}` }
-          name={ e }
+          name={ opt }
           onClick={ this.addClass }
         >
-          {e}
+          {opt}
         </button>
       ));
     const allOptions = [optionCorrect, ...optionsIcorrects]
       .sort(() => Math.random() - NUMB_HALF); // ref.: https://flaviocopes.com/how-to-shuffle-array-javascript/
     this.setState({ OptionsRandom: [...allOptions] });
-  }
+  };
 
   render() {
-    const { indexOf, hidden, OptionsRandom, questions } = this.state;
+    const { hidden, OptionsRandom, questions } = this.state;
+    const { indexOf } = this.props;
 
     return (
       <div>
@@ -176,6 +180,8 @@ Question.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }),
+  indexOf: PropTypes.number,
+  sendIndexOf: PropTypes.func,
 }.isRequired;
 
 const mapStateToProps = (state) => ({
@@ -183,11 +189,13 @@ const mapStateToProps = (state) => ({
   name: state.player.name,
   score: state.player.score,
   image: state.player.image,
+  indexOf: state.player.indexOf,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   scoreGame: (score) => dispatch(saveScore(score)),
   totalAssertions: (assertions) => dispatch(saveAssertions(assertions)),
+  sendIndexOf: () => dispatch(indexOfAction()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Question));
