@@ -75,8 +75,10 @@ class Question extends Component {
     buttons.forEach((btn) => {
       if (btn.innerText === answerCorrect) {
         btn.style.border = '3px solid rgb(6, 240, 15)';
+        btn.disabled = true;
       } else {
         btn.style.border = '3px solid rgb(255, 0, 0)';
+        btn.disabled = true;
       }
     });
     this.setState({ hidden: false });
