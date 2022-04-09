@@ -1,5 +1,20 @@
-body {
+:root {
+  --dark-purple: #4D196B;
+  --light-purple: #9B2FDA;
+  --dark-orange: #FF5217;
+  --ligth-orange: #FF8B00;
+  --yellow: #FFE367;
+  --white: #FCFCFC;
+
+}
+
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
