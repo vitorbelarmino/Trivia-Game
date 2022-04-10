@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { fetchAPITrivia } from '../server';
 import { saveScore, saveAssertions, indexOfAction } from '../actions';
+import '../styles/Question.css';
 
 class Question extends Component {
   constructor() {
@@ -75,8 +76,10 @@ class Question extends Component {
     buttons.forEach((btn) => {
       if (btn.innerText === answerCorrect) {
         btn.style.border = '3px solid rgb(6, 240, 15)';
+        btn.disabled = true;
       } else {
         btn.style.border = '3px solid rgb(255, 0, 0)';
+        btn.disabled = true;
       }
     });
     this.setState({ hidden: false });
@@ -138,26 +141,37 @@ class Question extends Component {
     const { indexOf } = this.props;
 
     return (
-      <div>
+      <div className="container">
         { questions.length > 0 && (
-          <div>
-            <p
-              data-testid="question-category"
-            >
-              {questions[indexOf].category}
-            </p>
-            <p
-              data-testid="question-text"
-            >
-              {questions[indexOf].question}
-            </p>
-            <div data-testid="answer-options">
-              {OptionsRandom.map((ele) => ele)}
+          <div className="card-question">
+
+            <div className="container-text">
+              <div className="container-category">
+
+                <p
+                  data-testid="question-category"
+                  className="question-category"
+                >
+                  {questions[indexOf].category}
+                </p>
+              </div>
+
+              <p
+                data-testid="question-text"
+                className="question-text"
+              >
+                {questions[indexOf].question}
+              </p>
+              <div data-testid="answer-options" className="answers">
+                {OptionsRandom.map((ele) => ele)}
+              </div>
             </div>
+
           </div>
         )}
         <button
           data-testid="btn-next"
+          className="next-btn"
           name="next"
           id="next"
           type="button"

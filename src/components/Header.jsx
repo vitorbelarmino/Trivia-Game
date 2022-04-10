@@ -1,24 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
+import '../styles/Header.css';
 
 class Header extends React.Component {
   render() {
     const { name, score, image } = this.props;
     return (
-      <div>
-        <header>
-          <p>Header!</p>
-          <img
-            src={ image }
-            alt="imagem player"
-            data-testid="header-profile-picture"
-          />
-          <p data-testid="header-player-name">{ name }</p>
-          <div data-testid="header-score">{ score }</div>
+      <header className="container-header">
+        <img
+          src={ image }
+          alt="imagem player"
+          data-testid="header-profile-picture"
+          className="profile-picture"
+        />
+        <div className="container-infos">
+          <p data-testid="header-player-name" className="player-name">
+            Jogador:
+            {' '}
+            { name }
+          </p>
+          <p data-testid="header-score" className="score">
+            { score }
+            {' '}
+            pontos
+          </p>
 
-        </header>
-      </div>
+        </div>
+      </header>
     );
   }
 }
