@@ -9,7 +9,6 @@ import '../styles/Game.css';
 class Game extends Component {
   render() {
     const { time } = this.props;
-    console.log(time);
     return (
       <>
         <Header />
