@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
-import { tokenAction, saveInfos } from '../actions';
+import { tokenAction, saveInfos, timerAction } from '../actions';
 import fetchToken from '../server';
 import '../styles/Login.css';
 import trivia from '../assets/trivia.png';
@@ -36,11 +36,12 @@ class Login extends Component {
 
   handleClick = async () => {
     const { email, name } = this.state;
-    const { savedToken, history, playerInfos } = this.props;
+    const { savedToken, history, playerInfos, time } = this.props;
     const { token } = await fetchToken();
     const imageGravatar = `https://www.gravatar.com/avatar/${md5(email).toString()}`;
     savedToken(token);
     playerInfos(email, name, imageGravatar);
+    time();
     history.push('/game');
   }
 
@@ -109,6 +110,7 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => ({
   savedToken: (token) => dispatch(tokenAction(token)),
   playerInfos: (email, name, image) => dispatch(saveInfos(email, name, image)),
+  time: () => dispatch(timerAction()),
 });
 
 Login.propTypes = {
@@ -117,6 +119,7 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }),
+  time: PropTypes.func,
 }.isRequired;
 
 export default withRouter(connect(null, mapDispatchToProps)(Login));

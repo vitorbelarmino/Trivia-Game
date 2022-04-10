@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { fetchAPITrivia } from '../server';
-import { saveScore, saveAssertions, indexOfAction } from '../actions';
+import { saveScore, saveAssertions, indexOfAction, timerAction } from '../actions';
 import '../styles/Question.css';
 
 class Question extends Component {
@@ -69,7 +69,7 @@ class Question extends Component {
 
   addClass = ({ target }) => {
     const { questions } = this.state;
-    const { indexOf } = this.props;
+    const { indexOf, time } = this.props;
     const answerCorrect = questions[indexOf].correct_answer;
     this.getScore({ target }, answerCorrect);
     const buttons = document.querySelectorAll('.btn');
@@ -83,10 +83,11 @@ class Question extends Component {
       }
     });
     this.setState({ hidden: false });
+    time();
   };
 
   nextQuest = () => {
-    const { history, indexOf, sendIndexOf } = this.props;
+    const { history, indexOf, sendIndexOf, time } = this.props;
     console.log(indexOf);
     const number = 4;
     if (indexOf === number) {
@@ -100,6 +101,7 @@ class Question extends Component {
       hidden: true,
       OptionsRandom: [],
     }, () => this.questionsOptions());
+    time();
   };
 
   questionsOptions = () => {
@@ -194,6 +196,7 @@ Question.propTypes = {
   }),
   indexOf: PropTypes.number,
   sendIndexOf: PropTypes.func,
+  time: PropTypes.func,
 }.isRequired;
 
 const mapStateToProps = (state) => ({
@@ -208,6 +211,7 @@ const mapDispatchToProps = (dispatch) => ({
   scoreGame: (score) => dispatch(saveScore(score)),
   totalAssertions: (assertions) => dispatch(saveAssertions(assertions)),
   sendIndexOf: () => dispatch(indexOfAction()),
+  time: () => dispatch(timerAction()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Question));
