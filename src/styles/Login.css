@@ -43,7 +43,7 @@ label input {
 }
 
 .btn-play-login {
-  background-color: var(--light-purple);
+  background-color: var(--dark-purple);
   border: none;
   border-radius: 8px;
   color: var(--white);
@@ -56,7 +56,7 @@ label input {
 }
 
 .btn-play-login:disabled {
-  background-color: var(--dark-purple);
+  background-color: var(--light-purple);
 }
 
 .settings-login {

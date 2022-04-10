@@ -1,11 +1,12 @@
-import { SAVE_ASSERTIONS, SAVE_INFOS, SAVE_SCORE, INDEX_OF } from '../actions';
+import { SAVE_ASSERTIONS, SAVE_INFOS, SAVE_SCORE, INDEX_OF, TIMER } from '../actions';
 
 const INIT_STATE = {
   name: '',
-  assertions: 1,
+  assertions: 0,
   score: 0,
   gravatarEmail: '',
   indexOf: 0,
+  time: false,
 };
 
 const player = (state = INIT_STATE, action) => {
@@ -32,6 +33,11 @@ const player = (state = INIT_STATE, action) => {
     return {
       ...state,
       indexOf: state.indexOf + 1,
+    };
+  case TIMER:
+    return {
+      ...state,
+      time: !state.time,
     };
   default: {
     return state;

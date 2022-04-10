@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Timer from '../components/Timer';
 import Question from '../components/Question';
@@ -6,6 +8,7 @@ import '../styles/Game.css';
 
 class Game extends Component {
   render() {
+    const { time } = this.props;
     return (
       <>
         <Header />
@@ -15,7 +18,9 @@ class Game extends Component {
             <Question />
           </main>
           <aside className="aside-game">
-            <Timer />
+            {
+              time && <Timer />
+            }
           </aside>
         </div>
       </>
@@ -23,4 +28,12 @@ class Game extends Component {
   }
 }
 
-export default Game;
+const mapStateToProps = (state) => ({
+  time: state.player.time,
+});
+
+Game.propTypes = {
+  time: PropTypes.bool,
+}.isRequired;
+
+export default connect(mapStateToProps)(Game);
