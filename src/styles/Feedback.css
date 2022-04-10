@@ -1,0 +1,14 @@
+.main-feedback {
+  align-items: center;
+  background-color: var(--dark-orange);
+  border-radius: 8px;
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  height: 70%;
+  justify-content: space-evenly;
+  margin-top: 180px;
+  position: relative;
+  text-align: center;
+  width: 444px;
+}

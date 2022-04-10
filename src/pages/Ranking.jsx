@@ -37,7 +37,7 @@ class Ranking extends Component {
               <p data-testid={ `player-score-${ele.score}` }>{ele.score}</p>
             </div>
           ))
-        ) : <h3>Raking Vazio</h3> }
+        ) : <h3>Ranking Vazio</h3> }
 
         <button
           type="button"
@@ -54,7 +54,7 @@ class Ranking extends Component {
             this.setState({ players: 0 });
           } }
         >
-          limpar Ranking
+          Limpar Ranking
 
         </button>
       </div>
