@@ -14,7 +14,7 @@ class Login extends Component {
     this.state = {
       email: '',
       name: '',
-      isDisabled: false,
+      isDisabled: true,
       isRedirect: false,
     };
   }
@@ -24,9 +24,9 @@ class Login extends Component {
     const isNameValid = name.length > 0;
     const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); // ref. https://github.com/tryber/sd-019-c-live-lectures/blob/lecture/11.5/aula_extra/src/App.js
     if (isNameValid && isEmailValid) {
-      this.setState({ isDisabled: true });
-    } else {
       this.setState({ isDisabled: false });
+    } else {
+      this.setState({ isDisabled: true });
     }
   }
 

@@ -7,12 +7,12 @@ class Message extends React.Component {
     const { assertions } = this.props;
     const MIN_ACERTOS = 3;
     return (
-      <div>
-        <p data-testid="feedback-text">
+      <div className="feedback-text">
+        <h2 data-testid="feedback-text">
           {' '}
           { assertions >= MIN_ACERTOS ? 'Well Done!' : 'Could be better...' }
           {' '}
-        </p>
+        </h2>
       </div>
     );
   }

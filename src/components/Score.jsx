@@ -6,17 +6,13 @@ class Score extends React.Component {
   render() {
     const { assertions, score } = this.props;
     return (
-      <div>
-        <p data-testid="feedback-total-question">
-          {' '}
-          { assertions }
-          {' '}
-        </p>
-        <p data-testid="feedback-total-score">
-          {' '}
-          { score }
-          {' '}
-        </p>
+      <div className="feedback-score">
+        <h3 data-testid="feedback-total-question">
+          { `Você acertou ${assertions} questões!` }
+        </h3>
+        <h3 data-testid="feedback-total-score">
+          { `Um total de ${score} pontos` }
+        </h3>
       </div>
     );
   }

@@ -1,0 +1,13 @@
+.btn-again {
+  background-color: var(--dark-purple);
+  border: none;
+  border-radius: 8px;
+  color: var(--white);
+  font-size: 18px;
+  font-weight: 700;
+  height: 36px;
+  line-height: 1.8rem;
+  margin-top: 12px;
+  position: relative;
+  width: 444px;
+}

@@ -4,17 +4,26 @@ import Message from '../components/Message';
 import PlayAgain from '../components/PlayAgain';
 import Score from '../components/Score';
 import BtnHanking from '../components/BtnHanking';
+import '../styles/Feedback.css';
 
 class Feedback extends Component {
   render() {
     return (
-      <div>
+      <>
         <Header />
-        <Message />
-        <Score />
-        <PlayAgain />
-        <BtnHanking />
-      </div>
+        <div className="form-container">
+
+          <main className="main-feedback">
+            <Message />
+            <Score />
+          </main>
+          <div className="feedback-btns">
+            <PlayAgain />
+            <BtnHanking />
+          </div>
+
+        </div>
+      </>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import '../styles/PlayAgain.css';
 
 class PlayAgain extends React.Component {
   handleClick = () => {
@@ -14,6 +15,7 @@ class PlayAgain extends React.Component {
         <button
           type="button"
           data-testid="btn-play-again"
+          className="btn-again"
           onClick={ this.handleClick }
         >
           Play Again

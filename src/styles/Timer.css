@@ -1,0 +1,10 @@
+.container-timer {
+  display: inline-block;
+}
+
+.timer {
+  color: black;
+  font-size: 40px;
+  top: 10%;
+  transform: translate(0, -50%);
+}
