@@ -27,10 +27,9 @@
 
 .ranking-card {
   align-items: center;
-  /* background-color: #999; */
   background-color: var(--light-purple);
-  border: 2px solid #666;
   border-radius: 5px;
+  color: var(--white);
   display: flex;
   flex-direction: column;
   height: 200px;
@@ -69,6 +68,7 @@
 
 .button-ranking {
   background-color: var(--dark-purple);
+  border: 2px var(--light-purple);
   border-radius: 8px;
   color: white;
   font-size: 16px;
