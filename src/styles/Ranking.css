@@ -1,0 +1,77 @@
+.container-ranking-page {
+  align-items: center;
+  background-image: url('../assets/wave-haikei-purple.svg');
+  display: flex;
+  flex-flow: column wrap;
+
+}
+
+.container-ranking-page h1 {
+  margin-top: 110px;
+}
+
+.ranking-image img {
+  border-radius: 100px;
+  margin-top: 2px;
+  width: 75px;
+}
+
+.ranking-main {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  width: 710px;
+}
+
+.ranking-card {
+  align-items: center;
+  /* background-color: #999; */
+  background-color: var(--light-purple);
+  border: 2px solid #666;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  justify-content: space-evenly;
+  margin: 5px;
+  margin-bottom: 10px;
+  transition: 0.2s;
+  width: 130px;
+}
+
+.ranking-card:hover {
+  transform: scale(1.1);
+}
+
+.ranking-image {
+  width: 120px;
+}
+
+.ranking-infos {
+  margin-top: 10px;
+  width: 120px;
+}
+
+.ranking-infos, p {
+  margin-top: 5px;
+}
+
+.button-content {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  margin-bottom: 15px;
+  width: 80%;
+}
+
+.button-ranking {
+  background-color: var(--dark-purple);
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  padding: 5px;
+  width: 150px;
+}
