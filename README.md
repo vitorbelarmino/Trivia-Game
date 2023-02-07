@@ -35,14 +35,14 @@ Ou acesse diretamente [aqui](https://trivia-game-henna.vercel.app/)
 
 - React
   - Componentização da aplicação.
-  - ciclos de vida dos componentes.
+  - Ciclos de vida dos componentes.
   
 - Redux
   - Criação de um store Redux em aplicações React
 
   - Criação de reducers no Redux em aplicações React
 
-  - Criação deCriação de actions no Redux em aplicações React
+  - Criação de actions no Redux em aplicações React
 
   - Criação de dispatchers no Redux em aplicações React
 
